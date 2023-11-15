@@ -1,0 +1,48 @@
+#include <iostream>
+#include <cmath>
+#include <vector>
+
+struct Position {
+    double x;
+    double y;
+    double z;
+    double time; // Time at which the position was recorded
+};
+
+// Function to calculate the speed based on position data
+double calculateSpeed(const Position& p1, const Position& p2) {
+    // Calculate the distance between two points in 3D space
+    double distance = std::sqrt(std::pow(p2.x - p1.x, 2) + std::pow(p2.y - p1.y, 2) + std::pow(p2.z - p1.z, 2));
+
+    // Calculate the time difference
+    double timeDifference = p2.time - p1.time;
+
+    // Calculate speed (distance divided by time)
+    double speed = distance / timeDifference;
+
+    return speed;
+}
+
+int main() {
+    // Example position data for the drone at different points in time
+    std::vector<Position> dronePositions = {
+        {0.0, 0.0, 0.0, 0.0},
+        {1.0, 2.0, 3.0, 1.0},
+        {4.0, 5.0, 6.0, 2.0},
+        // Add more position data as needed
+    };
+
+    // Calculate speed based on position data
+    if (dronePositions.size() >= 2) {
+        Position currentPosition = dronePositions.back();
+        Position previousPosition = dronePositions[dronePositions.size() - 2];
+
+        double speed = calculateSpeed(previousPosition, currentPosition);
+
+        std::cout << "Drone speed: " << speed << " units per second." << std::endl;
+    } else {
+        std::cout << "Insufficient position data to calculate speed." << std::endl;
+    }
+
+    return 0;
+}
